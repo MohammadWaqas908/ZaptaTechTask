@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Events\NewUserRegisterEvent;
+use Illuminate\Support\Facades\Auth; 
 
 class RegisterController extends Controller
 {
@@ -39,12 +40,12 @@ class RegisterController extends Controller
                     return '/admin-home';
                     break;
                 case 'teacher':
-                    UserLOggedInEvent::dispatch(Auth()->user());
+                    NewUserRegisterEvent::dispatch(Auth()->user());
                     return '/teacher-home';
                     break; 
                 case 'student':
                     
-                    UserLOggedInEvent::dispatch(Auth()->user());
+                    NewUserRegisterEvent::dispatch(Auth()->user());
                     return '/student-home';
                     break; 
                 default:
