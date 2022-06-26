@@ -30,7 +30,31 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    public function redirectTo() {
+        if(Auth::check()) {
+            $role = Auth::user()->role; 
+            switch ($role) {
+                case 'admin':
+                    return '/admin-home';
+                    break;
+                case 'teacher':
+                    UserLOggedInEvent::dispatch(Auth()->user());
+                    return '/teacher-home';
+                    break; 
+                case 'student':
+                    
+                    UserLOggedInEvent::dispatch(Auth()->user());
+                    return '/student-home';
+                    break; 
+                default:
+                    return '/login'; 
+                    break;
+            }
+        }else{
+            return '/login'; 
+        }
+    }
 
     /**
      * Create a new controller instance.
